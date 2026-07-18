@@ -1,4 +1,4 @@
-name: App / Build
+name: App / Lint
 
 on:
   push:
@@ -11,8 +11,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build
+  lint:
+    name: Lint
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
@@ -24,14 +24,5 @@ jobs:
           java-version: "21"
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
-      - name: Assemble debug APKs
-        run: ./gradlew assembleDebug
-      - name: Create publish bundle
-        run: mkdir -p build/gh-app-publish/; find app/build/ -iname "*.apk" -exec mv "{}" build/gh-app-publish/ \;
-      - name: Upload artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: build-artifacts
-          retention-days: 14
-          if-no-files-found: error
-          path: build/gh-app-publish/
+      - name: Run Android lint
+        run: ./gradlew lint
