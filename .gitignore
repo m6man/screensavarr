@@ -1,5 +1,7 @@
 *.iml
 local.properties
+*.jks
+*.keystore
 
 .gradle
 .kotlin/
