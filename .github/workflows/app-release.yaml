@@ -38,7 +38,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version="${GITHUB_REF_NAME#v}"
+          release_apk="app/build/outputs/apk/release/screensavarr-v${version}.apk"
+          mv app/build/outputs/apk/release/app-release.apk "$release_apk"
           gh release create "$GITHUB_REF_NAME" \
-            "app/build/outputs/apk/release/app-release.apk#screensavarr-v${version}.apk" \
+            "$release_apk" \
             --title "screensavarr ${version}" \
             --generate-notes
